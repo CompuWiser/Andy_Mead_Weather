@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const hbs = require('hbs');
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 
 const app = express();
 
@@ -40,27 +42,60 @@ app.get('/help', function(req, res) {
 });
 
 app.get('/weather', function(req, res) {
+  const address = req.query.address;
+  if (!address) {
+    return res.send({
+      error: 'You must provide an address!'
+    });
+  }
+
+  geocode(address, function(error, { latitude, longitude, location } = {}) {
+    if (error) {
+      return res.send({ error });
+    }
+
+    forecast(latitude, longitude, function(error, forecastData) {
+      if (error) {
+        return res.send({ error });
+      }
+
+      res.send({
+        forecast: forecastData,
+        location,
+        address
+      });
+    });
+  });
+});
+
+app.get('/products', function(req, res) {
+  if (!req.query.search) {
+    return res.send({
+      error: 'You must provide a search term'
+    });
+  }
+
+  console.log(req.query.search);
   res.send({
-    forecast: 'It is snowing',
-    location: 'Philadelphia'
+    products: []
   });
 });
 
 app.get('/help/*', function(req, res) {
   res.render('404', {
-      title: '404',
-      name: 'Andrew Mead',
-      errorMessage: 'Help article not found.'
-  })
-})
+    title: '404',
+    name: 'Andrew Mead',
+    errorMessage: 'Help article not found.'
+  });
+});
 
 app.get('*', function(req, res) {
   res.render('404', {
-      title: '404',
-      name: 'Andrew Mead',
-      errorMessage: 'Page not found.'
-  })
-})
+    title: '404',
+    name: 'Andrew Mead',
+    errorMessage: 'Page not found.'
+  });
+});
 
 app.listen(3000, function() {
   console.log('listening to http://localhost:3000/ or http://127.0.0.1:3000/');
