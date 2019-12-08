@@ -12,12 +12,12 @@ const forecast = function(latitude, longitude, callback) {
     } else if (body.error) {
       callback('Unable to find location', undefined);
     } else {
-      const {summary, temperatureLow, temperatureHigh} = body.daily.data[0];
+      const {summary, temperatureMin, temperatureMax} = body.daily.data[0];
       const { temperature, precipProbability} = body.currently;
 
       callback(
         undefined,
-        `${summary}\nIt is currently ${temperature}° degress out.\nMin: ${temperatureLow}°, Max: ${temperatureHigh}°.\nThere is a ${precipProbability}% chance of rain.`
+        `${summary}\nIt is currently ${temperature}° degress out.\nMin: ${temperatureMin}°, Max: ${temperatureMax}°.\nThere is a ${precipProbability}% chance of rain.`
       );
     }
   });
