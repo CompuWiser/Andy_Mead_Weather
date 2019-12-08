@@ -30,13 +30,15 @@ app.get('', function(req, res) {
 app.get('/about', function(req, res) {
   res.render('about', {
     title: 'About Me',
-    name: 'Shanioob'
+    name: 'Shanioob',
+    url: "https://picsum.photos/id/1025/250/350",
+    content: 'This Website is created by Shanioob for testing purposes'
   });
 });
 
 app.get('/help', function(req, res) {
   res.render('help', {
-    helpText: 'This is some helpful text.',
+    helpText: 'Nobody is gonna help you here.',
     title: 'Help',
     name: 'Shanioob'
   });

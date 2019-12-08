@@ -17,7 +17,7 @@ const forecast = function(latitude, longitude, callback) {
 
       callback(
         undefined,
-        `${summary}. It is currently ${temperature}° degress out. There is a ${precipProbability}% chance of rain.`
+        `${summary}\nIt is currently ${temperature}° degress out.\nThere is a ${precipProbability}% chance of rain.`
       );
     }
   });
