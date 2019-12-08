@@ -5,6 +5,7 @@ const geocode = require('./utils/geocode');
 const forecast = require('./utils/forecast');
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 //== Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, '..', 'public');
@@ -97,6 +98,6 @@ app.get('*', function(req, res) {
   });
 });
 
-app.listen(3000, function() {
-  console.log('listening to http://localhost:3000/ or http://127.0.0.1:3000/');
+app.listen(port, function() {
+  console.log(`listening to http://localhost:${port}/ or http://127.0.0.1:${port}/`);
 });
